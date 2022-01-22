@@ -7,21 +7,27 @@
 
 import UIKit
 import MapKit
+import CoreData
 
-class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var saveButton: UIButton!
+    
+    var locationManager = CLLocationManager()
+    var chosenLatitude = Double()
+    var chosenLongitude = Double()
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeUserIntercativeImageView()
-        
+        makeUserInteractiveImageView()
+        configureMapAndLocation()
+        addLongPressGestureToMapView()
     }
     
     // MARK: - User Interacted ImageView
-    func makeUserIntercativeImageView() {
+    func makeUserInteractiveImageView() {
         imageView.isUserInteractionEnabled = true
         addTapGestureToImageView()
     }
@@ -41,9 +47,11 @@ class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         let alert = UIAlertController(title: "Media Source", message: "Use Camera or Library", preferredStyle: UIAlertController.Style.alert)
         let libraryButton = UIAlertAction(title: "Library", style: UIAlertAction.Style.default) { UIAlertAction in
             print("Library Tapped")
+            self.selectImage(sourceType: .photoLibrary) //select from library
         }
         let cameraButton = UIAlertAction(title: "Camera", style: UIAlertAction.Style.default) { UIAlertAction in
             print("Camera Tapped")
+            self.selectImage(sourceType: .camera) // take photo by camera
         }
         
         alert.addAction(libraryButton)
@@ -65,7 +73,79 @@ class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         self.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - Configure Map and Location
+    
+    func configureMapAndLocation() {
+        mapView.delegate = self
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingHeading()
+    }
+    
+    func addLongPressGestureToMapView() {
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(chooseLocation(gestureRecognizer:)))
+        gestureRecognizer.minimumPressDuration = 3 // or 2 second for pin to map
+        mapView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc func chooseLocation(gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let touchedPoint = gestureRecognizer.location(in: self.mapView)
+            let touchedCoordinates = self.mapView.convert(touchedPoint, toCoordinateFrom: self.mapView)
+            
+            chosenLatitude = touchedCoordinates.latitude
+            chosenLongitude = touchedCoordinates.longitude
+            print(chosenLatitude, chosenLongitude)
+            
+            addPin(coordinate: touchedCoordinates)
+        }
+    }
+    
+    func addPin(coordinate: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = nameTextField.text
+        self.mapView.addAnnotation(annotation)
+    }
+    
+    // MARK: - Core Data Usage
+    
     @IBAction func saveButtonClicked(_ sender: Any) {
+        let context = getContext()
+        setPlaceData(context)
+        saveChanges(context)
+        goBack()
+    }
+    
+    func getContext() -> NSManagedObjectContext {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        return context
+    }
+    
+    func setPlaceData(_ context: NSManagedObjectContext) {
+        let newPlace = NSEntityDescription.insertNewObject(forEntityName: "Place", into: context)
+        newPlace.setValue(nameTextField.text, forKey: "galleryName")
+        newPlace.setValue(chosenLatitude, forKey: "latitude")
+        newPlace.setValue(chosenLongitude, forKey: "longitude")
+        newPlace.setValue(UUID(), forKey: "id")
+        let imageData = imageView.image?.jpegData(compressionQuality: 0.5)
+        newPlace.setValue(imageData, forKey: "image")
+    }
+    
+    func saveChanges(_ context: NSManagedObjectContext) {
+        do {
+            try context.save()
+            print("success save")
+        } catch {
+            print("error save")
+        }
+    }
+    
+    func goBack() {
+        NotificationCenter.default.post(name: NSNotification.Name("newdata"), object: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
 }
