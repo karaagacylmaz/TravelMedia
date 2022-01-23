@@ -15,6 +15,7 @@
 		95279406279B646F00B3CAE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95279405279B646F00B3CAE2 /* Assets.xcassets */; };
 		95279409279B646F00B3CAE2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95279407279B646F00B3CAE2 /* LaunchScreen.storyboard */; };
 		95279411279B67D300B3CAE2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95279410279B67D300B3CAE2 /* MapViewController.swift */; };
+		95D67CF3279E07CE00DB3A90 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D67CF2279E07CE00DB3A90 /* TableViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		95279408279B646F00B3CAE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9527940A279B646F00B3CAE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95279410279B67D300B3CAE2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		95D67CF2279E07CE00DB3A90 /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				95279407279B646F00B3CAE2 /* LaunchScreen.storyboard */,
 				9527940A279B646F00B3CAE2 /* Info.plist */,
 				95279402279B646D00B3CAE2 /* TravelMedia.xcdatamodeld */,
+				95D67CF2279E07CE00DB3A90 /* TableViewModel.swift */,
 			);
 			path = TravelMedia;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				952793FE279B646D00B3CAE2 /* ViewController.swift in Sources */,
 				952793FA279B646D00B3CAE2 /* AppDelegate.swift in Sources */,
 				95279404279B646D00B3CAE2 /* TravelMedia.xcdatamodeld in Sources */,
+				95D67CF3279E07CE00DB3A90 /* TableViewModel.swift in Sources */,
 				95279411279B67D300B3CAE2 /* MapViewController.swift in Sources */,
 				952793FC279B646D00B3CAE2 /* SceneDelegate.swift in Sources */,
 			);
