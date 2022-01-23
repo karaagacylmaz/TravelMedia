@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     
     var mediaArray = [TableViewModel]()
+    var selectedItemId: UUID?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -31,6 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     // Go to other segue (screen)
     @objc func addButtonClicked() {
+        selectedItemId = nil // new object will add
         performSegue(withIdentifier: "toMapVC", sender: nil)
     }
     
@@ -42,7 +44,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // the template of a cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = mediaArray.first { $0.index == indexPath.row}?.name
+        cell.textLabel?.text = String(indexPath.row + 1) + " - " + mediaArray.first { $0.index == indexPath.row}!.name
         return cell
     }
     // cell count
@@ -126,7 +128,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    // MARK: - Remove Data From Screen And Core Data
+    // MARK: - Remove Data From Screen And Core Data (When slide right to left)
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let context = getContext()
@@ -136,6 +138,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             request.predicate = NSPredicate(format: "id = %@", id!)
             
             removeData(context, request, id!, indexPath.row)
+        }
+    }
+    
+    // MARK: - When item selected, to see selected item's details inside the other segue
+    // Inherited from UITableViewDelegate.tableView
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedItemId = mediaArray.first { $0.index == indexPath.row}?.id
+        performSegue(withIdentifier: "toMapVC", sender: nil)
+    }
+    
+    // before segue change
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toMapVC" {
+            let destinationVC = segue.destination as! MapViewController
+            destinationVC.chosenItemId = selectedItemId
         }
     }
 }

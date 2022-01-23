@@ -19,11 +19,14 @@ class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     var locationManager = CLLocationManager()
     var chosenLatitude = Double()
     var chosenLongitude = Double()
+    var chosenItemId: UUID?
     override func viewDidLoad() {
         super.viewDidLoad()
+        saveButton.isHidden = true
         makeUserInteractiveImageView()
         configureMapAndLocation()
         addLongPressGestureToMapView()
+        getData()
     }
     
     // MARK: - User Interacted ImageView
@@ -107,6 +110,7 @@ class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         annotation.coordinate = coordinate
         annotation.title = nameTextField.text
         self.mapView.addAnnotation(annotation)
+        saveButton.isHidden = false
     }
     
     // MARK: - Core Data Usage
@@ -148,4 +152,50 @@ class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         self.navigationController?.popViewController(animated: true)
     }
     
+    // MARK: - If chosenId has value we will get data from CoreData
+    
+    func getData() {
+        if chosenItemId != nil && chosenItemId?.uuidString != "" {
+            let context = getContext()
+            let request = getRequest()
+            do {
+                let response = try context.fetch(request)
+                if response.count > 0 {
+                    setDataToControls(response)
+                }
+            } catch {
+                print("error in getdata")
+            }
+        }
+    }
+    
+    func getRequest() -> NSFetchRequest<NSFetchRequestResult> {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Place")
+        let idString = chosenItemId?.uuidString
+        fetchRequest.predicate = NSPredicate(format: "id = %@", idString!)
+        fetchRequest.returnsObjectsAsFaults = false
+        return fetchRequest
+    }
+    
+    func setDataToControls(_ response: [NSFetchRequestResult]) {
+        for res in response as! [NSManagedObject] {
+            if let name = res.value(forKey: "galleryName") as? String {
+                nameTextField.text = name
+            }
+            
+            if let image = res.value(forKey: "image") as? Data {
+                imageView.image = UIImage(data: image)
+            }
+            
+            var coordinate = CLLocationCoordinate2D()
+            if let lat = res.value(forKey: "latitude") as? Double {
+                coordinate.latitude = lat
+            }
+            
+            if let longt = res.value(forKey: "longitude") as? Double {
+                coordinate.longitude = longt
+            }
+            addPin(coordinate: coordinate)
+        }
+    }
 }
