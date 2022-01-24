@@ -27,6 +27,7 @@ class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         configureMapAndLocation()
         addLongPressGestureToMapView()
         getData()
+        addTapRecognizerToView()
     }
     
     // MARK: - User Interacted ImageView
@@ -197,5 +198,15 @@ class MapViewController: UIViewController, UIImagePickerControllerDelegate, UINa
             }
             addPin(coordinate: coordinate)
         }
+    }
+    
+    // MARK: - Hide Keyboard
+    func addTapRecognizerToView() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }

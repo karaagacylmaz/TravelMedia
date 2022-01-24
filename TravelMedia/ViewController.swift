@@ -44,7 +44,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // the template of a cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = String(indexPath.row + 1) + " - " + mediaArray.first { $0.index == indexPath.row}!.name
+        cell.textLabel?.text = mediaArray.first { $0.index == indexPath.row}?.name //String(indexPath.row + 1) + " - " + mediaArray.first { $0.index == indexPath.row}?.name
+        //print(mediaArray, mediaArray.count, mediaArray[0].name, indexPath.row) There is a bug. Go back a few lessons later.
         return cell
     }
     // cell count
@@ -107,9 +108,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if let mediaId = res.value(forKey: "id") as? UUID {
                         if mediaId.uuidString == id {
                             context.delete(res)
+                            saveChanges(context)
                             mediaArray.remove(at: index)
                             self.tableView.reloadData()
-                            saveChanges(context)
                         }
                     }
                 }

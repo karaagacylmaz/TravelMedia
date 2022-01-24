@@ -83,15 +83,20 @@
                         <constraints>
                             <constraint firstItem="HJs-d4-hSc" firstAttribute="top" secondItem="uMn-3T-gL2" secondAttribute="bottom" constant="20" id="0Lp-r9-8x7"/>
                             <constraint firstItem="86g-hv-u84" firstAttribute="leading" secondItem="VEy-Kb-iwB" secondAttribute="leading" id="6On-Yn-Sw0"/>
+                            <constraint firstItem="VEy-Kb-iwB" firstAttribute="trailing" secondItem="toR-bz-HmC" secondAttribute="trailing" constant="20" id="Esi-ah-rOM"/>
                             <constraint firstItem="HJs-d4-hSc" firstAttribute="centerX" secondItem="86g-hv-u84" secondAttribute="centerX" id="GHu-na-Gk6"/>
+                            <constraint firstItem="toR-bz-HmC" firstAttribute="trailing" secondItem="uMn-3T-gL2" secondAttribute="trailing" id="Hb9-oT-2oZ"/>
                             <constraint firstItem="86g-hv-u84" firstAttribute="top" secondItem="HJs-d4-hSc" secondAttribute="bottom" constant="19" id="IYQ-Zn-JA0"/>
-                            <constraint firstItem="uMn-3T-gL2" firstAttribute="leading" secondItem="HJs-d4-hSc" secondAttribute="leading" id="NYz-a6-u59"/>
+                            <constraint firstItem="86g-hv-u84" firstAttribute="trailing" secondItem="VEy-Kb-iwB" secondAttribute="trailing" id="NGV-Q7-c8i"/>
+                            <constraint firstItem="uMn-3T-gL2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HJs-d4-hSc" secondAttribute="leading" id="NYz-a6-u59"/>
                             <constraint firstItem="toR-bz-HmC" firstAttribute="top" secondItem="86g-hv-u84" secondAttribute="bottom" constant="24" id="Q3V-uE-ShA"/>
-                            <constraint firstItem="uMn-3T-gL2" firstAttribute="trailing" secondItem="HJs-d4-hSc" secondAttribute="trailing" id="UoK-tY-2Zb"/>
+                            <constraint firstItem="86g-hv-u84" firstAttribute="leading" secondItem="VEy-Kb-iwB" secondAttribute="leading" id="R4X-Vg-Xdj"/>
+                            <constraint firstItem="toR-bz-HmC" firstAttribute="leading" secondItem="VEy-Kb-iwB" secondAttribute="leading" constant="20" id="SvI-07-MTX"/>
+                            <constraint firstItem="uMn-3T-gL2" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="HJs-d4-hSc" secondAttribute="trailing" id="UoK-tY-2Zb"/>
                             <constraint firstItem="toR-bz-HmC" firstAttribute="bottom" secondItem="VEy-Kb-iwB" secondAttribute="bottom" id="W0K-Oe-UaA"/>
                             <constraint firstItem="uMn-3T-gL2" firstAttribute="top" secondItem="VEy-Kb-iwB" secondAttribute="top" id="b8U-g9-bKG"/>
-                            <constraint firstItem="HJs-d4-hSc" firstAttribute="trailing" secondItem="toR-bz-HmC" secondAttribute="trailing" id="paH-7o-ueq"/>
-                            <constraint firstItem="HJs-d4-hSc" firstAttribute="leading" secondItem="toR-bz-HmC" secondAttribute="leading" id="rgx-OG-frL"/>
+                            <constraint firstItem="HJs-d4-hSc" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="toR-bz-HmC" secondAttribute="trailing" id="paH-7o-ueq"/>
+                            <constraint firstItem="HJs-d4-hSc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="toR-bz-HmC" secondAttribute="leading" id="rgx-OG-frL"/>
                             <constraint firstItem="uMn-3T-gL2" firstAttribute="leading" secondItem="eLP-Wf-YNL" secondAttribute="leadingMargin" id="yr5-hu-VcP"/>
                         </constraints>
                     </view>
